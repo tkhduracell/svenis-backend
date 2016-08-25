@@ -32,11 +32,15 @@ public class Utils {
     try {
       Path path = Paths.get(file);
       byte[] readAllBytes = Files.readAllBytes(path);
-      res.header("Content-type", "application/json; charset=utf-8");
+      jsonContent(res);
       Charset charset = Charset.defaultCharset();
       return new String(readAllBytes, charset);
     } catch (IOException e) {
       throw new RuntimeException(e);
     }
+  }
+
+  public static void jsonContent(Response res) {
+    res.header("Content-type", "application/json; charset=utf-8");
   }
 }

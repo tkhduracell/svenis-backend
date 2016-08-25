@@ -1,0 +1,2 @@
+DROP SCHEMA svenis IF EXISTS;
+CREATE SCHEMA svenis;
