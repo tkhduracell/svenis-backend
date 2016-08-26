@@ -8,7 +8,8 @@ Java backend for the svenis app.
 	* H2 Database
 	* FlyWay DB 
 
-## Running
- `mvn flyway:migrate install`
- `mvn exec:java -Dexec.mainClass="com.svenis.Main"`  
+## Setup
+
+Compile using `mvn flyway:migrate install`
+Run using `mvn exec:java -Dexec.mainClass="com.svenis.Main"`  
  
