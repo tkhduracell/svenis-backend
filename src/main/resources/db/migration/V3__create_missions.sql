@@ -32,6 +32,25 @@ INSERT INTO svenis.questions (
     "amount"
 );
 
-    "max_points": 35,
-    "max_point_amount": 5,
-    "type": "amount"
+INSERT INTO svenis.questions (
+    name,
+    description,
+    title,
+    success_toast_message,
+    failure_toast_message,
+    point_text,
+    max_points,
+    max_point_amount,
+    type,
+
+) VALUES (
+    "Hur mycket orkar du?",
+    "Detta Ã¤r ett bevis pÃ¥ om du blivit stor och orkar en rejÃ¤l bit mat.",
+    "Hur mycket orkar du?",
+    "Du Ã¤ter som en riktig man!",
+    "Hade lite hÃ¶gre fÃ¶rvÃ¤ntningar men du Ã¥t iaf nÃ¥got annat Ã¤n burkmat.",
+    "Hur mycket orkar du? (Cheese)",
+    18,
+    6,
+    "amount"
+);
