@@ -9,7 +9,19 @@ Java backend for the svenis app.
 	* FlyWay DB 
 
 ## Setup
+You need maven in order to build and run the project. 
+1. `brew update`
+2. `brew install maven`
 
-Compile using `mvn flyway:migrate install`
-Run using `mvn exec:java -Dexec.mainClass="com.svenis.Main"`  
+## Running
+The first steps in the process is to rebuild the database and package.
+```
+mvn flyway:migrate install
+```
+
+Then run the main method.
+```
+mvn exec:java -Dexec.mainClass="com.svenis.Main"
+```  
+
  
