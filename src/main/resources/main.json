@@ -25,31 +25,8 @@
     "type": "amount"
 }
 ],
-"puzzles": [
-{
-    "id": 0,
-    "card_title": "Ta dig till jobbet",
-    "card_description": "Du Ã¥ker till och frÃ¥n jobbet varje dag. Vad Ã¤r egentligen vÃ¤rdet av att bo nÃ¤ra sitt arbete?",
-    "title": "Pendling",
-    "unit": "dagar",
-    "question": "Hur mycket tid per Ã¥r spenderar stockholmare i genomsnitt pÃ¥ att pendla?",
-    "point_text": "Uppskatta pendling",
-    "max_points": 68,
-    "min_points": 20,
-    "correct_answer": 44,
-    "points": 30
-}
-],
-"schedule": [
-{
-    "title": "Vakna!",
-    "description": "Höga ljud är något du får vänja dig vid när dina barn kommer springa runt överallt under dygnets alla timmar."
-},
-{
-    "title": "Lekdags",
-    "description": "Snart har du inte tid att vara med oss mer så därför vill vi passa på att leka ordentligt med dig en sista gång. Glöm inte, det är alltid på blodigaste allvar!"
-}
-],
+"puzzles": [],
+"schedule": [],
 "geo_cache": [
 {
     "lat": 59.324488,
