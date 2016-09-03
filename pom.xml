@@ -19,9 +19,16 @@
         <version.guava>19.0</version.guava>
         <version.slf4j-simple>1.7.21</version.slf4j-simple>
         <version.junit>4.11</version.junit>
+        <version.gson>2.7</version.gson>
     </properties>
 
     <dependencies>
+
+        <dependency>
+            <groupId>com.google.code.gson</groupId>
+            <artifactId>gson</artifactId>
+            <version>${version.gson}</version>
+        </dependency>
 
         <dependency>
             <groupId>com.sparkjava</groupId>

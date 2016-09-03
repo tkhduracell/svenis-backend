@@ -2,9 +2,16 @@ package com.svenis;
 
 import com.google.common.collect.ImmutableMap;
 import com.svenis.model.svenis.tables.Questions;
+import com.svenis.model.svenis.tables.records.QuestionsRecord;
+import com.svenis.util.JsonUtils;
+import org.jooq.Record;
 import org.jooq.impl.DSL;
 import spark.Request;
 import spark.Response;
+import spark.Spark;
+import spark.route.RouteOverview;
+import spark.servlet.SparkApplication;
+import spark.utils.SparkUtils;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -42,19 +49,17 @@ public class API {
 
     get("/", API::renderMain);
     get("/questions", API::renderUser);
-    get("/test", API::renderTest);
+    get("/test", API::renderTest, JsonUtils::asJson);
   }
 
-  private static String renderTest(Request req, Response res) {
+  private static QuestionsRecord renderTest(Request req, Response res) {
     try (Connection c = DriverManager.getConnection(H2_DATABASE, "sa", "")) {
-      return asJson(DSL.using(c)
-              .select(Questions.QUESTIONS.fields())
-              .from(Questions.QUESTIONS)
-              .fetchArray());
+      return DSL.using(c)
+              .selectFrom(Questions.QUESTIONS)
+              .fetchAny();
     } catch (SQLException e) {
-      html(res);
       halt(500, e.toString());
-      return "";
+      return null;
     }
   }
 
