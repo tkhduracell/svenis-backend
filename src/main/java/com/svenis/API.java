@@ -78,15 +78,18 @@ public class API {
 
   private static String renderMain(Request req, Response res) {
     html(res);
+
     return "<h1>Welcome!</h1>" +
     "<p>" +
+      "Spec: " +
       "<a href=\"http://private-80d637-markuslarsson.apiary-mock.com/questions\">" +
         "http://private-80d637-markuslarsson.apiary-mock.com/questions" +
       "</a>" +
     "</p>" +
-    "<pre>" +
-           "\tGET /     -> Returns this page\n" +
-           "\tGET /user -> Returns user info as json\n" +
-    "<pre>";
+    "<pre>Available router: \n" +
+           "\tGET /           -> Returns this page\n" +
+           "\tGET /user       -> Returns user info as json\n" +
+           "\tGET /questions  -> Returns questions info as json\n" +
+    "<pre><br><iframe src='/routes'></iframe>";
   }
 }
