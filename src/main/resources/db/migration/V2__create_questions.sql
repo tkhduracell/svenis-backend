@@ -11,4 +11,8 @@ CREATE TABLE svenis.questions (
     CONSTRAINT pk_questions PRIMARY KEY (id)
 );
 
-INSERT INTO svenis.questions (language,app_name,title,gender,name,admin_pin) VALUES ('sv', 'my-app', 'my title', 'hermale', 'pella', '1234');
+INSERT INTO svenis.questions (
+    language,app_name,title,gender,name,admin_pin
+) VALUES (
+    'sv', 'my-app', 'my title', 'hermale', 'pella', '1234'
+);
