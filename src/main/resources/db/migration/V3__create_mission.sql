@@ -10,9 +10,9 @@ CREATE TABLE svenis.missions(
     max_points int,
     max_point_amount int,
 
-    question_id bigint,
+    session_id bigint NOT NULL,
 
-    FOREIGN KEY (question_id) REFERENCES svenis.questions(id),
+    FOREIGN KEY (session_id) REFERENCES svenis.sessions(id),
 
     CONSTRAINT pk_missions PRIMARY KEY (id)
 );
@@ -26,7 +26,7 @@ INSERT INTO svenis.missions (
     point_text,
     max_points,
     max_point_amount,
-    question_id
+    session_id
 ) VALUES (
     'Skapa minnen.',
     'Under hela sitt liv skapar man minnen. Ett bra sÃ¤tt att spara minnen Ã¤r att ta en GROUPIE. Ta en groupie med 5 olika gÃ¤ng.',
@@ -48,7 +48,7 @@ INSERT INTO svenis.missions (
     point_text,
     max_points,
     max_point_amount,
-    question_id
+    session_id
 ) VALUES (
     'Hur mycket orkar du?',
     'Detta Ã¤r ett bevis pÃ¥ om du blivit stor och orkar en rejÃ¤l bit mat.',

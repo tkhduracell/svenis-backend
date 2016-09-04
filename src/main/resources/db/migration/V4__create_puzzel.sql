@@ -1,5 +1,5 @@
 
-CREATE TABLE svenis.puzzle(
+CREATE TABLE svenis.puzzles(
     id bigint NOT NULL AUTO_INCREMENT,
     title varchar(255),
     card_title varchar(255),
@@ -15,14 +15,14 @@ CREATE TABLE svenis.puzzle(
     correct_answer int,
     points int,
 
-    question_id bigint,
+    session_id bigint NOT NULL,
 
-    FOREIGN KEY (question_id) REFERENCES svenis.questions(id),
+    FOREIGN KEY (session_id) REFERENCES svenis.sessions(id),
 
-    CONSTRAINT pk_puzzle PRIMARY KEY (id)
+    CONSTRAINT pk_puzzles PRIMARY KEY (id)
 );
 
-INSERT INTO svenis.puzzle (
+INSERT INTO svenis.puzzles (
     card_title,
     card_description,
     title,
@@ -32,7 +32,8 @@ INSERT INTO svenis.puzzle (
     max_points,
     min_points,
     correct_answer,
-    points
+    points,
+    session_id
 ) VALUES (
     'Ta dig till jobbet',
     'Du Ã¥ker till och frÃ¥n jobbet varje dag. Vad Ã¤r egentligen vÃ¤rdet av att bo nÃ¤ra sitt arbete?',
@@ -43,5 +44,6 @@ INSERT INTO svenis.puzzle (
     68,
     20,
     44,
-    30
+    30,
+    1
 );

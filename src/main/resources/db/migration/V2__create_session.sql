@@ -1,5 +1,5 @@
 
-CREATE TABLE svenis.questions (
+CREATE TABLE svenis.sessions (
     id bigint NOT NULL AUTO_INCREMENT,
     language varchar(255),
     app_name varchar(255),
@@ -8,11 +8,11 @@ CREATE TABLE svenis.questions (
     name varchar(255),
     admin_pin varchar(255),
 
-    CONSTRAINT pk_questions PRIMARY KEY (id)
+    CONSTRAINT pk_session PRIMARY KEY (id)
 );
 
-INSERT INTO svenis.questions (
-    language,app_name,title,gender,name,admin_pin
+INSERT INTO svenis.sessions (
+    language, app_name, title, gender, name, admin_pin
 ) VALUES (
     'sv', 'my-app', 'my title', 'hermale', 'pella', '1234'
 );

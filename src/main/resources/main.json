@@ -1,51 +1,9 @@
 {
-"missions": [
-{
-    "id": 0,
-    "name": "Skapa minnen.",
-    "description": "Under hela sitt liv skapar man minnen. Ett bra sÃ¤tt att spara minnen Ã¤r att ta en GROUPIE. Ta en groupie med 5 olika gÃ¤ng.",
-    "title": "Hur mÃ¥nga groupie?",
-    "success_toast_message": "Du kommer bli en bra pappa som aldrig tvekar att vara med pÃ¥ bild.",
-    "failure_toast_message": "FÃ¥r hoppas du kommer ta lite familjefoto framÃ¶ver, fÃ¶r detta var inte Ã¶vertygande.",
-    "point_text": "Ta nÃ¥gra groupie",
-    "max_points": 35,
-    "max_point_amount": 5,
-    "type": "amount"
-},
-{
-    "id": 1,
-    "name": "Hur mycket orkar du?",
-    "description": "Detta Ã¤r ett bevis pÃ¥ om du blivit stor och orkar en rejÃ¤l bit mat.",
-    "title": "Hur mycket orkar du?",
-    "success_toast_message": "Du Ã¤ter som en riktig man!",
-    "failure_toast_message": "Hade lite hÃ¶gre fÃ¶rvÃ¤ntningar men du Ã¥t iaf nÃ¥got annat Ã¤n burkmat.",
-    "point_text": "Hur mycket orkar du? (Cheese)",
-    "max_points": 18,
-    "max_point_amount": 6,
-    "type": "amount"
-}
-],
+"missions": [],
 "puzzles": [],
 "schedule": [],
-"geo_cache": [
-{
-    "lat": 59.324488,
-    "lng": 18.009762,
-    "id": 0,
-    "password": "jidder",
-    "clue": "Gul markering",
-    "point_text": "Geocaching: Fotboll",
-    "title": "Människans bästa vän",
-    "hint": "Hunden sägs ofta vara människans bästa vän. Nu ska du få ett litet tips på vart du kan hitta ledtråden med hjälp av den nära vännen.\n\nVärldens minsta hund är chihuahuan. Ledtråden befinner sig omkring 2 chihuahua upp i luften noga uppklistrad.",
-    "toast_hint": "Fel!! Försök igen!"
-}
-],
-"theme": {
-    "primary_color": "#8BC34A",
-    "primary_dark_color": "#689F38",
-    "primary_text_color": "#000000",
-    "accent_color": "#4B0082"
-},
+"geo_cache": [],
+"theme": {},
 "language": "sv",
 "app_name": "Är Fredrik en man",
 "title": "Nice man?",
