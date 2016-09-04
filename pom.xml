@@ -14,7 +14,7 @@
         <version.jooq>3.8.4</version.jooq>
         <version.h2>1.4.192</version.h2>
         <version.maven-compiler>3.5.1</version.maven-compiler>
-        <version.spark>2.4</version.spark>
+        <version.spark>2.5</version.spark>
         <version.flyway>3.0</version.flyway>
         <version.guava>19.0</version.guava>
         <version.slf4j-simple>1.7.21</version.slf4j-simple>
@@ -151,7 +151,7 @@
                     </jdbc>
                     <generator>
                         <database>
-                            <includes>.*</includes>
+                            <includes>svenis.*</includes>
                         </database>
                         <target>
                             <packageName>com.svenis.model</packageName>

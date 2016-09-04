@@ -1,10 +1,12 @@
-import static com.svenis.model.svenis.tables.Questions.QUESTIONS;
+
 import static java.util.Arrays.asList;
 import static org.junit.Assert.assertEquals;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
-import org.jooq.Result;
+
+import com.svenis.model.svenis.tables.Sessions;
+import com.svenis.model.svenis.tables.records.SessionsRecord;
 import org.jooq.impl.DSL;
 import org.junit.Test;
 
@@ -15,15 +17,14 @@ public class SmokeTest {
   @Test
   public void testQueryingAfterMigration() throws Exception {
     try (Connection c = DriverManager.getConnection(H2_DATABASE, "sa", "")) {
-      Result<?> result =
+      SessionsRecord[] result =
           DSL.using(c)
-              .select(QUESTIONS.APP_NAME)
-              .from(QUESTIONS)
-              .fetch()
+              .selectFrom(Sessions.SESSIONS)
+              .fetchArray();
           ;
 
-      assertEquals(1, result.size());
-      assertEquals(asList("my-app"), result.getValues(QUESTIONS.APP_NAME));
+      assertEquals(1, result.length);
+      assertEquals("my-app", result[0].getValue(Sessions.SESSIONS.APP_NAME));
     }
   }
 }

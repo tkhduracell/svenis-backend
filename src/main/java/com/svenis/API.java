@@ -1,95 +1,130 @@
 package com.svenis;
 
-import com.google.common.collect.ImmutableMap;
-import com.svenis.model.svenis.tables.Questions;
-import com.svenis.model.svenis.tables.records.QuestionsRecord;
+import com.google.common.collect.ImmutableList;
+import com.svenis.model.svenis.tables.*;
+import com.svenis.util.AuthUtils;
 import com.svenis.util.JsonUtils;
+import com.svenis.util.RouteDef;
 import org.jooq.Record;
+import org.jooq.Table;
 import org.jooq.impl.DSL;
 import spark.Request;
 import spark.Response;
-import spark.Spark;
-import spark.route.RouteOverview;
-import spark.servlet.SparkApplication;
-import spark.utils.SparkUtils;
+import spark.Route;
+import spark.route.HttpMethod;
 
 import java.sql.Connection;
-import java.sql.DriverManager;
 import java.sql.SQLException;
-import java.util.Map;
+import java.util.List;
+import java.util.stream.Collectors;
 
-import static com.svenis.util.JsonUtils.*;
-import static com.svenis.util.RespUtils.*;
-import static com.svenis.util.Utils.*;
-import static spark.Spark.before;
-import static spark.Spark.exception;
-import static spark.Spark.get;
-import static spark.Spark.halt;
-import static spark.Spark.port;
+import static com.svenis.util.JsonUtils.asJson;
+import static com.svenis.util.RespUtils.html;
+import static com.svenis.util.RespUtils.sendJsonFile;
+import static com.svenis.util.RouteDef.def;
+import static com.svenis.util.Utils.conn;
+import static spark.Spark.*;
 
 public class API {
 
-  private static final Map<String, String> USERS = ImmutableMap.of(
-      "test", sha1("2846")
+  private static final List<RouteDef> ROUTES = ImmutableList.of(
+    def(HttpMethod.get, "/",  "Returns this page [html]"),
+    def(HttpMethod.get, "/raw", "test page"),
+    def(HttpMethod.get, "/user",  "Returns user [json] ?session_id=<?> "),
+    def(HttpMethod.get, "/theme", "Returns theme [json]"),
+    def(HttpMethod.get, "/puzzle", "Returns puzzle [json]"),
+    def(HttpMethod.get, "/session", "Returns session [json]"),
+    def(HttpMethod.get, "/schedule", "Returns schedule [json]"),
+    def(HttpMethod.get, "/question", "Returns questions [json]"),
+    def(HttpMethod.get, "/geocache", "Returns geocache [json]")
   );
 
   private static final int PORT = 9999;
-  private static final String QUERY_PARAM_USER = "user";
-  private static final String QUERY_PARAM_PASS = "pass";
-  private static final String H2_DATABASE = "jdbc:h2:./target/svenisdb";
+
 
   public static void start() {
     exception(Exception.class, (e, req, res) -> e.printStackTrace());
     port(PORT);
 
-    before(API::checkAuthenticate);
-
-    // Json default return type
-    before((req, res) -> json(res));
+    before(AuthUtils::checkAuthenticate); // Make authentication happen
+    before(JsonUtils::defaultJsonType); // Json default return type
 
     get("/", API::renderMain);
-    get("/questions", API::renderUser);
-    get("/test", API::renderTest, JsonUtils::asJson);
+    get("/raw", (req,res) -> sendJsonFile(res, "src/main/resources/main.json"));
+
+    get("/session", oneFromSession(Sessions.SESSIONS), JsonUtils::asJson);
+
+    get("/theme", oneFromSession(Theme.THEME), JsonUtils::asJson);
+    get("/puzzle",  allFromSession(Puzzle.PUZZLE), JsonUtils::asJson);
+    get("/mission", allFromSession(Missions.MISSIONS), JsonUtils::asJson);
+    get("/schedule", allFromSession(Schedule.SCHEDULE), JsonUtils::asJson);
+    get("/geocache", allFromSession(Geocache.GEOCACHE), JsonUtils::asJson);
   }
 
-  private static QuestionsRecord renderTest(Request req, Response res) {
-    try (Connection c = DriverManager.getConnection(H2_DATABASE, "sa", "")) {
+  private static int getSessionId(Request req) {
+    String idParam = req.queryParams("id");
+    try {
+      return Integer.parseInt(idParam);
+    } catch (NumberFormatException e) {
+      halt(500, asJson("error", "Invalid id '" + idParam + "'"));
+      return -1;
+    }
+  }
+
+  private static <R extends Record> Route oneFromSession(Table<R> type) {
+    return (req, resp) -> oneFromSession(type, getSessionId(req));
+  }
+
+  private static <R extends Record> R oneFromSession(Table<R> type, Integer sessionId) {
+    try (Connection c = conn()) {
       return DSL.using(c)
-              .selectFrom(Questions.QUESTIONS)
-              .fetchAny();
+              .selectFrom(type)
+              .where("session_id = ?", sessionId)
+              .fetchOptional()
+              .orElse(null);
     } catch (SQLException e) {
       halt(500, e.toString());
       return null;
     }
   }
 
-  private static void checkAuthenticate(Request req, Response res) {
-    final String user = opt(req.queryParams(QUERY_PARAM_USER), "");
-    final String pass = opt(req.queryParams(QUERY_PARAM_PASS), "");
-    final boolean isRoot = req.pathInfo().equals("/");
-    if (!isRoot && !USERS.getOrDefault(user, "").equals(sha1(pass))) {
-      halt(401, asJson("message", "Invalid credentials"));
+  private static <R extends Record> Route allFromSession(Table<R> type) {
+    return (req, resp) -> allFromSession(type, getSessionId(req));
+  }
+
+  private static <R extends Record> R[] allFromSession(Table<R> type, Integer sessionId) {
+    try (Connection c = conn()) {
+      return DSL.using(c)
+              .selectFrom(type)
+              .where("session_id = ?", sessionId)
+              .fetchArray();
+    } catch (SQLException e) {
+      halt(500, e.toString());
+      return null;
     }
   }
 
-  private static String renderUser(Request req, Response res) {
-    return sendJsonFile(res, "src/main/resources/main.json");
-  }
-
   private static String renderMain(Request req, Response res) {
-    html(res);
+    String routes = ROUTES.stream()
+            .map(e -> String.format("\t<li><a href='%s'>%s %s\t-> %s</a></li>",
+                    e.path(),
+                    e.verb().name(),
+                    e.path(),
+                    e.doc())
+            )
+            .collect(Collectors.joining("\n"));
 
-    return "<h1>Welcome!</h1>" +
+    html(res);
+    return "<h1>Welcome to Svenis!</h1>" +
     "<p>" +
       "Spec: " +
       "<a href=\"http://private-80d637-markuslarsson.apiary-mock.com/questions\">" +
         "http://private-80d637-markuslarsson.apiary-mock.com/questions" +
       "</a>" +
-    "</p>" +
-    "<pre>Available router: \n" +
-           "\tGET /           -> Returns this page\n" +
-           "\tGET /user       -> Returns user info as json\n" +
-           "\tGET /questions  -> Returns questions info as json\n" +
-    "<pre><br><iframe src='/routes'></iframe>";
+    "</p>"  +
+    "<h2>Authentication</h2>" +
+    "<p>In the first request you have to login using <code>/?user=&lt;your user&gt;&pass=&lt;your pass&gt;</code> this will not be necessary on subsequent requests.</p>" +
+    "<h2>Available routes</h2>" +
+    "<ul>" + routes + "<ul>";
   }
 }
