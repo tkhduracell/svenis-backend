@@ -1,7 +1,7 @@
 package com.svenis;
 
+import com.svenis.db.model.svenis.tables.*;
 import com.google.common.collect.ImmutableList;
-import com.svenis.model.svenis.tables.*;
 import com.svenis.util.AuthUtils;
 import com.svenis.util.JsonUtils;
 import com.svenis.util.RouteDef;
@@ -54,11 +54,11 @@ public class API {
 
     get("/session", oneFromSession(Sessions.SESSIONS), JsonUtils::asJson);
 
-    get("/theme", oneFromSession(Theme.THEME), JsonUtils::asJson);
-    get("/puzzle",  allFromSession(Puzzle.PUZZLE), JsonUtils::asJson);
+    get("/theme", oneFromSession(Themes.THEMES), JsonUtils::asJson);
+    get("/puzzle",  allFromSession(Puzzles.PUZZLES), JsonUtils::asJson);
     get("/mission", allFromSession(Missions.MISSIONS), JsonUtils::asJson);
-    get("/schedule", allFromSession(Schedule.SCHEDULE), JsonUtils::asJson);
-    get("/geocache", allFromSession(Geocache.GEOCACHE), JsonUtils::asJson);
+    get("/schedule", allFromSession(Schedules.SCHEDULES), JsonUtils::asJson);
+    get("/geocache", allFromSession(Geocaches.GEOCACHES), JsonUtils::asJson);
   }
 
   private static int getSessionId(Request req) {

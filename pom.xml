@@ -154,7 +154,7 @@
                             <includes>svenis.*</includes>
                         </database>
                         <target>
-                            <packageName>com.svenis.model</packageName>
+                            <packageName>com.svenis.db.model</packageName>
                             <directory>target/generated-sources/models</directory>
                         </target>
                     </generator>
